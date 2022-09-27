@@ -81,4 +81,11 @@
 
 
 ## Xác định các nghiệp vụ chính
+- **Quản trị viên** có thể thêm, sửa, xóa, tìm kiếm các **Trung tâm**, **Giáo viên**, **Học viên**, **Phụ huynh**, **Khóa học**, **Lớp học**, **Phòng học**, **Chi phí**.
+- **Nhân viên** có thể đăng ký, hủy đăng ký, tìm kiếm các **Học viên** cho các **Khóa học** tại các **Trung tâm**.
+- **Phụ huynh** có thể xem thông tin các **Học viên** của mình.
+- **Học viên** có thể xem thông tin các **Khóa học** mình đăng ký, các **Lớp học** mình tham gia, các **Chi phí** phát sinh.
+- **Giáo viên** có thể xem thông tin các **Lớp học** mình dạy, các **Học viên** trong các **Lớp học** đó.
 
+## Xác định các ràng buộc
+- 
