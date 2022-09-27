@@ -31,10 +31,10 @@
         - Mã trung tâm (```center_id```); Nhân viên có thể làm ở nhiều Trung tâm (multi-valued)
     
     - **Quản trị viên** ```admin```, mỗi ```admin``` sẽ gồm các thuộc tính như:
-    - Mã quản trị viên (```admin_id```)
-    - Tên đăng nhập (```username```)
-    - Mật khẩu (```password```)
-    - Mã trung tâm (```center_id```); một **Quản trị viên** có thể quản lý nhiều **Trung tâm** (multi-valued)
+        - Mã quản trị viên (```admin_id```)
+        - Tên đăng nhập (```username```)
+        - Mật khẩu (```password```)
+        - Mã trung tâm (```center_id```); một **Quản trị viên** có thể quản lý nhiều **Trung tâm** (multi-valued)
 
     - **Học viên** ```student```, mỗi **Học viên** sẽ gồm các thuộc tính như:
         - Mã học viên (```student_id```)
