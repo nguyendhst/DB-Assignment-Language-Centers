@@ -1,3 +1,4 @@
+DROP TABLE person;
 CREATE TABLE `Person` (
   `person_id` int PRIMARY KEY AUTO_INCREMENT,
   `fname` varchar(255) NOT NULL,
@@ -18,6 +19,7 @@ CREATE TABLE `Account` (
   `created_at` timestamp NOT NULL DEFAULT (now())
 );
 
+DROP TABLE student;
 CREATE TABLE `Student` (
   `person_id` int AUTO_INCREMENT,
   `student_id` varchar(255),
@@ -202,8 +204,9 @@ CREATE TABLE `StudentFeedback` (
   `schedule_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now())
 );
-
+#########
 ALTER TABLE `Person` ADD FOREIGN KEY (`person_id`) REFERENCES `Account` (`person_id`);
+######### 
 
 ALTER TABLE `Person` ADD FOREIGN KEY (`person_id`) REFERENCES `Student` (`person_id`);
 
@@ -213,12 +216,15 @@ ALTER TABLE `Student` ADD FOREIGN KEY (`course_id`) REFERENCES `Course` (`course
 
 ALTER TABLE `Enroll` ADD FOREIGN KEY (`student_id`) REFERENCES `Student` (`student_id`);
 
+-- ############
 ALTER TABLE `Enroll` ADD FOREIGN KEY (`class_id`) REFERENCES `Class` (`class_id`);
+-- ############
 
 ALTER TABLE `Person` ADD FOREIGN KEY (`person_id`) REFERENCES `Parent` (`parent_id`);
 
 ALTER TABLE `StudentParent` ADD FOREIGN KEY (`parent_id`) REFERENCES `Parent` (`parent_id`);
 
+-- ###############
 ALTER TABLE `StudentParent` ADD FOREIGN KEY (`student_id`) REFERENCES `Student` (`student_id`);
 
 ALTER TABLE `Class` ADD FOREIGN KEY (`course_id`) REFERENCES `Course` (`course_id`);
@@ -235,6 +241,7 @@ ALTER TABLE `Discount` ADD FOREIGN KEY (`course_id`) REFERENCES `Course` (`cours
 
 ALTER TABLE `AppliedDiscount` ADD FOREIGN KEY (`discount_id`) REFERENCES `Discount` (`discount_id`);
 
+-- #####
 ALTER TABLE `AppliedDiscount` ADD FOREIGN KEY (`student_id`) REFERENCES `Student` (`student_id`);
 
 ALTER TABLE `CourseCenter` ADD FOREIGN KEY (`center_id`) REFERENCES `Center` (`center_id`);
