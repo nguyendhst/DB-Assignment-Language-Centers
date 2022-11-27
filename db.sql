@@ -1,3 +1,6 @@
+set FOREIGN_KEY_CHECKS = 0;
+
+
 DROP TABLE IF EXISTS`Person`;
 CREATE TABLE `Person` (
   `person_id` int PRIMARY KEY AUTO_INCREMENT,
@@ -16,7 +19,7 @@ CREATE TABLE `Account` (
   `account_id` int PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `passw_hash` varchar(255) NOT NULL,
-  `person_id` int NOT NULL,
+  `person_id` int NOT NULL UNIQUE,
   `created_at` timestamp NOT NULL DEFAULT (now())
 );
 
@@ -27,14 +30,17 @@ CREATE TABLE `Student` (
   `center_id` int NOT NULL,
   `course_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now()),
-  PRIMARY KEY (`person_id`, `student_id`)
+  PRIMARY KEY (`person_id`, `student_id`),
+  /* index student_id */
+    INDEX (`student_id`)
 );
 
 DROP TABLE IF EXISTS `Enroll`;
 CREATE TABLE `Enroll` (
-  `enroll_id` int PRIMARY KEY AUTO_INCREMENT,
+  `enroll_id` int AUTO_INCREMENT,
   `student_id` varchar(255) NOT NULL,
-  `class_id` int NOT NULL
+  `class_id` int NOT NULL,
+  PRIMARY KEY (`enroll_id`, `student_id`, `class_id`)
 );
 
 DROP TABLE IF EXISTS `Parent`;
@@ -228,6 +234,8 @@ CREATE TABLE `StudentReport` (
   `schedule_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now())
 );
+
+set FOREIGN_KEY_CHECKS = 1;
 
 ALTER TABLE `Person` ADD FOREIGN KEY (`person_id`) REFERENCES `Account` (`person_id`);
 
