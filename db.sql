@@ -26,13 +26,11 @@ CREATE TABLE `Account` (
 DROP TABLE IF EXISTS `Student`;
 CREATE TABLE `Student` (
   `person_id` int AUTO_INCREMENT,
-  `student_id` varchar(255),
+  `student_id` varchar(255) UNIQUE,
   `center_id` int NOT NULL,
   `course_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now()),
-  PRIMARY KEY (`person_id`, `student_id`),
-  /* index student_id */
-    INDEX (`student_id`)
+  PRIMARY KEY (`person_id`, `student_id`)
 );
 
 DROP TABLE IF EXISTS `Enroll`;
@@ -120,9 +118,9 @@ CREATE TABLE `Discount` (
 
 DROP TABLE IF EXISTS `AppliedDiscount`;
 CREATE TABLE `AppliedDiscount` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `discount_id` int,
-  `student_id` varchar(255),
-  PRIMARY KEY (`discount_id`, `student_id`)
+  `student_id` varchar(255)
 );
 
 DROP TABLE IF EXISTS `Center`;
@@ -130,7 +128,7 @@ CREATE TABLE `Center` (
   `center_id` int PRIMARY KEY AUTO_INCREMENT,
   `center_name` varchar(255) NOT NULL,
   `center_address` varchar(255) NOT NULL,
-  `center_sdt` varchar(255)
+  `center_phone` varchar(255)
 );
 
 DROP TABLE IF EXISTS `CourseCenter`;
@@ -310,4 +308,5 @@ ALTER TABLE `TeacherReport` ADD FOREIGN KEY (`schedule_id`) REFERENCES `Schedule
 ALTER TABLE `StudentReport` ADD FOREIGN KEY (`class_id`) REFERENCES `Class` (`class_id`);
 
 ALTER TABLE `StudentReport` ADD FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`);
+
 
