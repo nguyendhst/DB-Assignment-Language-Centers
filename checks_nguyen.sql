@@ -3,9 +3,12 @@
 /* time must be between the start and end date of the course */
 /* create a function to check if the time is between the start and end date of the course */
 DROP FUNCTION IF EXISTS checkTime;
-CREATE FUNCTION checkTime (time date, class_id int) RETURNS boolean
-READS SQL DATA
-DETERMINISTIC
+DELIMITER $$
+CREATE
+    FUNCTION checkTime(time date, class_id int)
+    RETURNS boolean
+    DETERMINISTIC
+    READS SQL DATA
 BEGIN
     DECLARE start_date date;
     DECLARE end_date date;
@@ -14,26 +17,32 @@ BEGIN
     INNER JOIN `Class` ON `Course`.`course_id` = `Class`.`course_id`
     WHERE `Class`.`class_id` = class_id;
     /* check if time is between start and end date */
-    RETURN time BETWEEN start_date AND end_date;
-END
+    IF time BETWEEN start_date AND end_date THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE;
+    END IF;
+END$$
 
 /* create a trigger to check if the time is between the start and end date of the course */
+DELIMITER ;
 DROP TRIGGER IF EXISTS checkTimeTrigger;
+DELIMITER $$
 CREATE TRIGGER checkTimeTrigger BEFORE INSERT ON `StudentReport`
 FOR EACH ROW
 BEGIN
     IF NOT checkTime(NEW.time, NEW.class_id) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Time must be between the start and end date of the course';
     END IF;
-END
+END$$
 
 
 SET FOREIGN_KEY_CHECKS=0;
 /* insert sample data */
 
 /* insert sample data for Center */
-INSERT INTO `Center` (`name`, `address`, `phone`, `email`) VALUES
-(1, 'Center 1', 'Address 1', '0123456789', 'test@mail.com');
+INSERT INTO `Center` (`center_name`, `center_address`, `center_phone`) VALUES
+(1, 'Center 1', 'Address 1', '0123456789');
 
 /* insert sample data for Person */
 INSERT INTO `Person` (`person_id`, `name`, `address`, `phone`, `email`) VALUES

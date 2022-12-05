@@ -87,5 +87,5 @@
 - **Học viên** có thể xem thông tin các **Khóa học** mình đăng ký, các **Lớp học** mình tham gia, các **Chi phí** phát sinh.
 - **Giáo viên** có thể xem thông tin các **Lớp học** mình dạy, các **Học viên** trong các **Lớp học** đó.
 
-## Xác định các ràng buộc
+## Xác định các ràng buộc ngữ nghĩa
 - 
