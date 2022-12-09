@@ -1,7 +1,8 @@
+DROP TABLE IF EXISTS receipt;
 CREATE TABLE receipt (
 	id int PRIMARY KEY AUTO_INCREMENT,
-    ostaff_id int NOT NULL,
-    student_id int NOT NULL,
+    `employee_id` varchar(255) NOT NULL,
+    student_id varchar(10) NOT NULL,
     `date` date NOT NULL,
     course_fee float NOT NULL,
     discount float NOT NULL,
@@ -11,16 +12,12 @@ CREATE TABLE receipt (
 );
 
 -- receipt
-INSERT INTO receipt( ostaff_id, student_id, `date`, course_fee, discount, total, paid, dept)
-VALUE (3, 4, '2022-11-02', 600000, 10, 540000, 300000, 240000);
-INSERT INTO receipt( ostaff_id, student_id, `date`, course_fee, discount, total, paid, dept)
-VALUE (3, 5, '2022-11-01', 500000, 10, 450000, 450000, 0);
-INSERT INTO receipt( ostaff_id, student_id, `date`, course_fee, discount, total, paid, dept)
-VALUE (2, 6, '2022-11-01', 500000, 10, 450000, 300000, 150000);
-INSERT INTO receipt( ostaff_id, student_id, `date`, course_fee, discount, total, paid, dept)
-VALUE (1, 8, '2022-11-01', 500000, 10, 450000, 300000, 150000);
-INSERT INTO receipt( ostaff_id, student_id, `date`, course_fee, discount, total, paid, dept)
-VALUE (4, 7, '2022-11-01', 500000, 10, 450000, 300000, 150000);
+INSERT INTO receipt( employee_id, student_id, `date`, course_fee, discount, total, paid, dept)
+VALUE ("E10001", "S10001", '2022-11-02', 1000000, 10, 900000, 700000, 200000);
+INSERT INTO receipt( employee_id, student_id, `date`, course_fee, discount, total, paid, dept)
+VALUE ("E10001", "S10002", '2022-11-01', 2000000, 10, 1800000, 1800000, 0);
+INSERT INTO receipt( employee_id, student_id, `date`, course_fee, discount, total, paid, dept)
+VALUE ("E10002", "S10003", '2022-11-01', 1000000, 10, 900000, 500000, 400000);
 
 -- discount
 INSERT INTO discount(`status`, name, start_date, description, course_id)
