@@ -44,7 +44,7 @@ CREATE TABLE `Enroll` (
   `enroll_id` int AUTO_INCREMENT,
   `student_id` varchar(10) NOT NULL,
   `class_id` int NOT NULL,
-  PRIMARY KEY (`enroll_id`, `student_id`, `class_id`)
+  PRIMARY KEY (`enroll_id`)
 );
 
 DROP TABLE IF EXISTS `Parent`;
@@ -113,7 +113,7 @@ CREATE TABLE `Schedule` (
   CONSTRAINT `weekday_format` CHECK 
   (`weekday` IN 
   ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')),
-  `start_time` datetime NOT NULL,
+  `start_time` time NOT NULL,
   `period` integer NOT NULL,
   CONSTRAINT `period_positive` CHECK (`period` > 0),
   `room_id` int NOT NULL,
@@ -189,18 +189,17 @@ CREATE TABLE `OfficerRole` (
 
 DROP TABLE IF EXISTS `Invoice`;
 CREATE TABLE `Invoice` (
-  `invoice_id` int PRIMARY KEY,
+  `invoice_id` int PRIMARY KEY AUTO_INCREMENT,
   `officer_id` varchar(255) NOT NULL,
+  `student_id` varchar(255) NOT NULL,
   `total` int NOT NULL,
   CONSTRAINT `total_positive` CHECK (`total` > 0),
   `in_debt` int NOT NULL,
-  CONSTRAINT `in_debt_positive` CHECK (`in_debt` > 0),
+  CONSTRAINT `in_debt_positive` CHECK (`in_debt` >= 0),
   `paid` int NOT NULL,
   CONSTRAINT `paid_positive` CHECK (`paid` > 0),
   `course_id` int NOT NULL,
   `discount_id` int NOT NULL,
-  `create_date` datetime DEFAULT (now()),
-  `status` ENUM ('paid', 'unpaid', 'overdue') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now())
 );
 
@@ -247,8 +246,6 @@ CREATE TABLE `TeacherReport` (
   `employee_id` varchar(255) NOT NULL,
   `attendance` ENUM ('absent', 'present') NOT NULL,
   `note` varchar(255),
-  `time` date NOT NULL DEFAULT (now()),
-  `class_id` int NOT NULL,
   `schedule_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now())
 );
@@ -259,21 +256,19 @@ CREATE TABLE `StudentReport` (
   `student_id` varchar(255) NOT NULL,
   `attendance` ENUM ('absent', 'present') NOT NULL,
   `note` varchar(255),
-  `time` date NOT NULL DEFAULT (now()),
-  `class_id` int NOT NULL,
   `schedule_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now())
 );
 
 set FOREIGN_KEY_CHECKS = 1;
 
-ALTER TABLE `Person` ADD FOREIGN KEY (`person_id`) REFERENCES `Account` (`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `Person` ADD FOREIGN KEY (`person_id`) REFERENCES `Student` (`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Account` ADD FOREIGN KEY (`person_id`) REFERENCES `Person` (`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `Student` ADD FOREIGN KEY (`center_id`) REFERENCES `Center` (`center_id`);
 
 ALTER TABLE `Student` ADD FOREIGN KEY (`course_id`) REFERENCES `Course` (`course_id`) ;
+
+ALTER TABLE `Student` ADD FOREIGN KEY (`person_id`) REFERENCES `Person` (`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `Parent` ADD FOREIGN KEY (`person_id`) REFERENCES `Person` (`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -281,7 +276,7 @@ ALTER TABLE `Enroll` ADD FOREIGN KEY (`student_id`) REFERENCES `Student` (`stude
 
 ALTER TABLE `Enroll` ADD FOREIGN KEY (`class_id`) REFERENCES `Class` (`class_id`);
 
-ALTER TABLE `Person` ADD FOREIGN KEY (`person_id`) REFERENCES `Parent` (`parent_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Parent` ADD FOREIGN KEY (`person_id`) REFERENCES `Person` (`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `StudentParent` ADD FOREIGN KEY (`parent_id`) REFERENCES `Parent` (`parent_id`);
 
@@ -321,6 +316,8 @@ ALTER TABLE `Invoice` ADD FOREIGN KEY (`course_id`) REFERENCES `Course` (`course
 
 ALTER TABLE `Invoice` ADD FOREIGN KEY (`discount_id`) REFERENCES `Discount` (`discount_id`);
 
+ALTER TABLE `Invoice` ADD FOREIGN KEY (`student_id`) REFERENCES `Student` (`student_id`);
+
 ALTER TABLE `TeacherDegrees` ADD FOREIGN KEY (`employee_id`) REFERENCES `Teacher` (`employee_id`);
 
 ALTER TABLE `TeacherMajors` ADD FOREIGN KEY (`employee_id`) REFERENCES `Teacher` (`employee_id`);
@@ -335,10 +332,6 @@ ALTER TABLE `TeacherCenter` ADD FOREIGN KEY (`center_id`) REFERENCES `Center` (`
 
 ALTER TABLE `Employee` ADD FOREIGN KEY (`employee_id`) REFERENCES `Teacher` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `TeacherReport` ADD FOREIGN KEY (`class_id`) REFERENCES `Class` (`class_id`);
-
 ALTER TABLE `TeacherReport` ADD FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`);
-
-ALTER TABLE `StudentReport` ADD FOREIGN KEY (`class_id`) REFERENCES `Class` (`class_id`);
 
 ALTER TABLE `StudentReport` ADD FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`schedule_id`);
