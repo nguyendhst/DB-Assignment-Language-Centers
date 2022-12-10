@@ -49,6 +49,11 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Person is an employee';
     END IF;
+    /* check if person is already a parent */
+    IF EXISTS (SELECT * FROM `Parent` WHERE `person_id` = p_id) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Person is already a parent';
+    END IF;
 
     /* insert student */
     INSERT INTO `Student` (`student_id`, `person_id`, `course_id`, `center_id`) VALUES (stu_id, p_id, c_id, cen_id);
@@ -139,3 +144,9 @@ BEGIN
     DELETE FROM `Student` WHERE `student_id` = stu_id;
 
 END$$
+DELIMITER ;
+
+
+
+
+

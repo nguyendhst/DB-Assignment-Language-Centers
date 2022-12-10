@@ -3,8 +3,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `Person`;
 CREATE TABLE `Person` (
   `person_id` int PRIMARY KEY AUTO_INCREMENT,
-  `fname` varchar(255) NOT NULL,
-  `lname` varchar(255) NOT NULL,
+  `fname` varchar(50) NOT NULL,
+  `lname` varchar(50) NOT NULL,
   `gender` ENUM ('male', 'female'),
   `email` varchar(100),
   CONSTRAINT `email_format` CHECK (`email` REGEXP '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'),
@@ -162,7 +162,7 @@ CREATE TABLE `CourseCenter` (
 
 DROP TABLE IF EXISTS `Employee`;
 CREATE TABLE `Employee` (
-  `person_id` int AUTO_INCREMENT,
+  `person_id` int NOT NULL UNIQUE,
   `employee_id` varchar(8),
   `salary` integer,
   CONSTRAINT `salary_positive` CHECK (`salary` > 0),
@@ -302,7 +302,7 @@ ALTER TABLE `CourseCenter` ADD FOREIGN KEY (`center_id`) REFERENCES `Center` (`c
 
 ALTER TABLE `CourseCenter` ADD FOREIGN KEY (`course_id`) REFERENCES `Course` (`course_id`);
 
-ALTER TABLE `Person` ADD FOREIGN KEY (`person_id`) REFERENCES `Employee` (`person_id`);
+ALTER TABLE `Employee` ADD FOREIGN KEY (`person_id`) REFERENCES `Person` (`person_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `Employee` ADD FOREIGN KEY (`employee_id`) REFERENCES `Officer` (`employee_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
