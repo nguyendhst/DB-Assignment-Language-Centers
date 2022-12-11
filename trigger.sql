@@ -4,15 +4,15 @@ ON `a`.`Involve`
 FOR EACH ROW
 	BEGIN
 		IF NEW.discount_ID = 1 THEN
-			UPDATE NEW.total = NEW.total_discounted - 20000;
+			SET @fee = NEW.total - 20000;
 		ELSEIF NEW.discount_ID = 2 THEN
-			UPDATE NEW.total = NEW.total_discounted - 0.15*NEW.total_discounted;
+			SET @fee = NEW.total - 0.15*NEW.total;
 		ELSEIF NEW.discount_ID = 3 THEN
-			UPDATE NEW.total = NEW.total_discounted - 0.1*NEW.total_discounted;
+			SET @fee = NEW.total - 0.1*NEW.total;
 		ELSEIF NEW.discount_ID = 4 THEN
-			UPDATE NEW.total = NEW.total_discounted - 0.5*NEW.total_discounted;
+			SET @fee = NEW.total - 0.5*NEW.total;
 		ELSE 
-			SET NEW.total = NEW.total_discounted - @discount*NEW.total_discounted;
+			SET @fee = NEW.total - @discount*NEW.total;
 		END IF;
 	END; //
 DELIMITER ;
