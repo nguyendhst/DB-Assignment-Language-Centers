@@ -1,18 +1,18 @@
 DELIMITER //
 CREATE TRIGGER `a`.fee AFTER INSERT
-ON `a`.`Discount`
+ON `a`.`Involve`
 FOR EACH ROW
 	BEGIN
 		IF NEW.discount_ID = 1 THEN
-			SET @fee = @fee - 20000;
+			UPDATE fee = NEW.total - 20000;
 		ELSEIF NEW.discount_ID = 2 THEN
-			SET @fee = @fee - 0.15*@fee;
+			UPDATE fee = NEW.total - 0.15*NEW.total;
 		ELSEIF NEW.discount_ID = 3 THEN
-			SET @fee = @fee - 0.1*@fee;
+			UPDATE fee = NEW.total - 0.1*NEW.total;
 		ELSEIF NEW.discount_ID = 4 THEN
-			SET @fee = @fee - 0.5*@fee;
+			UPDATE fee = NEW.total - 0.5*NEW.total;
 		ELSE 
-			SET @fee = @fee - @discount* @fee;
+			SET @fee = @fee - @discount*NEW.total;
 		END IF;
 	END; //
 DELIMITER ;
