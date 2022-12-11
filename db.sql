@@ -198,7 +198,7 @@ CREATE TABLE `Invoice` (
   CONSTRAINT `in_debt_positive` CHECK (`in_debt` >= 0),
   `paid` int NOT NULL,
   CONSTRAINT `paid_positive` CHECK (`paid` > 0),
-  `course_id` int NOT NULL,
+  `class_id` int NOT NULL,
   `discount_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT (now())
 );
@@ -312,7 +312,7 @@ ALTER TABLE `OfficerRole` ADD FOREIGN KEY (`employee_id`) REFERENCES `Officer` (
 
 ALTER TABLE `Invoice` ADD FOREIGN KEY (`officer_id`) REFERENCES `Officer` (`employee_id`);
 
-ALTER TABLE `Invoice` ADD FOREIGN KEY (`course_id`) REFERENCES `Course` (`course_id`);
+ALTER TABLE `Invoice` ADD FOREIGN KEY (`class_id`) REFERENCES `Class` (`class_id`);
 
 ALTER TABLE `Invoice` ADD FOREIGN KEY (`discount_id`) REFERENCES `Discount` (`discount_id`);
 
@@ -347,3 +347,79 @@ BEGIN
 
 END$$
 DELIMITER ;
+
+
+
+
+/* get full info on all programmes */
+DROP PROCEDURE IF EXISTS `getProgrammesFullInfo`;
+DELIMITER $$
+CREATE PROCEDURE `getProgrammesFullInfo`()
+BEGIN
+    /* get programmes */
+    SELECT * FROM `Programme`;
+
+END$$
+DELIMITER ;
+
+
+/* get courses of a programme in a center */
+DROP PROCEDURE IF EXISTS `getProgrammeCourses`;
+DELIMITER $$
+CREATE PROCEDURE `getProgrammeCourses`(
+  IN `p_id` INT, 
+  IN `c_id` INT
+)
+BEGIN
+    /* get courses */
+    SELECT * FROM `Course` WHERE `programme_id` = `p_id` AND `course_id` IN (SELECT `course_id` FROM `CourseCenter` WHERE `center_id` = `c_id`);
+
+END$$
+DELIMITER ;
+
+
+/* get center info */
+DROP PROCEDURE IF EXISTS `getCentersFullInfo`;
+DELIMITER $$
+CREATE PROCEDURE `getCentersFullInfo`()
+BEGIN
+    /* get centers */
+    SELECT * FROM `Center`;
+
+END$$
+DELIMITER ;
+
+
+/* get all classes of a course in a center */
+DROP PROCEDURE IF EXISTS `getCourseClasses`;
+DELIMITER $$
+CREATE PROCEDURE `getCourseClasses`(
+  IN `c_id` INT, 
+  IN `cc_id` INT
+)
+BEGIN
+    /* get classes */
+    SELECT * FROM `Class` WHERE `course_id` = `c_id` AND `class_id` IN (SELECT `class_id` FROM `Schedule` WHERE `room_id` IN (SELECT `room_id` FROM `Room` WHERE `center_id` = `cc_id`));
+
+END$$
+DELIMITER ;
+
+
+CALL getCourseClasses(1, 1);
+
+
+
+/* get all schedules of a given class in a center */
+DROP PROCEDURE IF EXISTS `getClassSchedules`;
+DELIMITER $$
+CREATE PROCEDURE `getClassSchedules`(
+  IN `cl_id` INT,
+  IN `cc_id` INT
+)
+BEGIN
+    /* get schedules */
+    SELECT * FROM `Schedule` WHERE `class_id` = `cl_id` AND `room_id` IN (SELECT `room_id` FROM `Room` WHERE `center_id` = `cc_id`);
+
+END$$
+DELIMITER ;
+

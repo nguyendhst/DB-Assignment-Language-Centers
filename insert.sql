@@ -321,12 +321,12 @@ INSERT INTO `Discount` (`status`, `name`, `start_date`, `description`, `course_i
 
 SELECT * FROM `Discount`;
 
-INSERT INTO `Invoice` (`officer_id`, `student_id`, `total`, `in_debt`, `paid`, `course_id` ,`discount_id`) VALUES
+INSERT INTO `Invoice` (`officer_id`, `student_id`, `total`, `in_debt`, `paid`, `class_id` ,`discount_id`) VALUES
 ("E10001", "S10001", 1000000, 0, 1000000, 1, 1),
-("E10001", "S10002", 1000000, 0, 1000000, 2, 2),
+("E10001", "S10002", 1000000, 0, 1000000, 5, 2),
 ("E10001", "S10005", 1000000, 0, 1000000, 1, 3),
-("E20002", "S20001", 1000000, 0, 1000000, 2, 4),
-("E30001", "S30002", 1000000, 0, 1000000, 4, 1),
+("E20002", "S20001", 1000000, 0, 1000000, 12, 4),
+("E30001", "S30002", 1000000, 0, 1000000, 13, 1),
 ("E10001", "S10003", 1000000, 0, 1000000, 3, 2);
 
 SELECT * FROM `Invoice`;

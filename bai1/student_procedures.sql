@@ -61,6 +61,8 @@ BEGIN
 END$$
 DELIMITER ;
 
+CALL insertStudent('S10006', 21, 1, 1);
+
 /* update student */
 DROP PROCEDURE IF EXISTS `updateStudent`;
 DELIMITER $$
@@ -120,6 +122,9 @@ BEGIN
 END$$
 DELIMITER ;
 
+
+CALL updateStudent('S10006', 21, 2, 1);
+
 /* delete student */
 DROP PROCEDURE IF EXISTS `deleteStudent`;
 DELIMITER $$
@@ -146,8 +151,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-
-
+CALL deleteStudent('S10006');
 
 /* get full info on all students */
 DROP PROCEDURE IF EXISTS `getStudentsFullInfo`;
