@@ -340,27 +340,10 @@ ALTER TABLE `StudentReport` ADD FOREIGN KEY (`schedule_id`) REFERENCES `Schedule
 /* get full info on all students */
 DROP PROCEDURE IF EXISTS `getStudentsFullInfo`;
 DELIMITER $$
-CREATE PROCEDURE `getStudentsFullInfo`(
-    IN `lim` INT,
-    IN `off` INT
-)
+CREATE PROCEDURE `getStudentsFullInfo`()
 BEGIN
-
-    /* check if limit is valid */
-    IF lim < 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid limit';
-    END IF;
-
-    /* check if offset is valid */
-    IF off < 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Invalid offset';
-    END IF;
-
     /* get students */
-    SELECT * FROM `Student` LEFT JOIN `Person` ON `Student`.`person_id` = `Person`.`person_id`
-    LIMIT lim OFFSET off;
+    SELECT * FROM `Student` LEFT JOIN `Person` ON `Student`.`person_id` = `Person`.`person_id`;
 
 END$$
 DELIMITER ;
