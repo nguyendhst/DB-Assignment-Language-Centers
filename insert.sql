@@ -316,7 +316,7 @@ SELECT * FROM `Enroll`;
 INSERT INTO `Discount` (`status`, `name`, `start_date`, `description`, `course_id`) VALUES 
 ('active', '10%', '2022-10-13', 'Giam 10% tren tong hoc phi', 3),
 ('active', '15%', '2022-08-13', 'Giam 15% tren tong hoc phi', 2),
-('active', '20k', '2022-10-13', 'Giam 20k', 1),
+('active', '20%', '2022-10-13', 'Giam 20k', 1),
 ('inactive', '50%', '2022-12-13', 'Giam 50% tren tong hoc phi', 4);
 
 SELECT * FROM `Discount`;
